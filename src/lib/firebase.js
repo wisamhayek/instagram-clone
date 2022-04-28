@@ -15,10 +15,9 @@ const firebaseConfig = {
   };
   
   // Initialize Firebase
-  const firebase = initializeApp(firebaseConfig);
-  const db = getFirestore(firebase);
-
-
+const firebase = initializeApp(firebaseConfig);
+const db = getFirestore(firebase);
+const auth = getAuth();
 
 function authUser(x,y){
   console.log(x , y);
@@ -106,7 +105,8 @@ function seedDatabase2(){
 }
 // seedDatabase2();
 
-export {firebase,db}
+export {firebase,db};
 export {seedDatabase2};
 export {authUser};
-export {addUser}
+export {addUser};
+export {auth};
