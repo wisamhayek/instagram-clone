@@ -2,7 +2,7 @@ import React, { Fragment, useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
 import "./dashboard.css";
-import { auth, db, logout } from "../lib/firebase";
+import { auth, db } from "../lib/firebase";
 import { query, collection, getDocs, where } from "firebase/firestore";
 import Timeline from '../components/timeline';
 import Header from "../components/header";
