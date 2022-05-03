@@ -1,9 +1,6 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import {seedDatabase} from '../seed';
-import { collection, addDoc } from "firebase/firestore"; 
-
+import {getAuth,signInWithEmailAndPassword,createUserWithEmailAndPassword,signOut,updateProfile} from "firebase/auth";
+import {getFirestore,collection,addDoc} from "firebase/firestore";
 
 const firebaseConfig = {
     apiKey: "AIzaSyDfmMq7erEynTlMTYdXTD_5cLJnvv7uoyU",
@@ -13,100 +10,77 @@ const firebaseConfig = {
     messagingSenderId: "494957911998",
     appId: "1:494957911998:web:19c518bd75635cba3863ef"
   };
-  
-  // Initialize Firebase
-const firebase = initializeApp(firebaseConfig);
-const db = getFirestore(firebase);
-const auth = getAuth();
 
-function authUser(x,y){
-  console.log(x , y);
-  const auth = getAuth();
-  signInWithEmailAndPassword(auth, x, y)
-  .then((userCredential) => {
-    // Signed in 
-    console.log("login success");
-    const user = userCredential.user;
-    console.log(user);
-    // ...
-  })
-  .catch((error) => {
-    const errorCode = error.code;
-    const errorMessage = error.message;
-    console.log(errorMessage+errorCode);
-  });
-}
+const app= initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
 
+export let errorSignIn = null;
 
-//Add new user to the userbase collection
-function addUser(userId,username,fullName,emailAddress){
-
-  const newUser = {
-    userId: userId,
-    username: username.toLowerCase(),
-    fullName: fullName ,
-    emailAddress: emailAddress.toLowerCase(),
-    following: [],
-    followers: [],
-    dateCreated: Date.now()
-  }
-  const docRef =  addDoc(collection(db, "users"),newUser);
-  console.log("Document written with ID: ", docRef.id);
-}
-
-
-
-
-//   seedDatabase(firebase);
-
-function seedDatabase2(){
-  const users = [
-    {
-      userId: 'ELV3o4HMW2SjClIVbtArcSRKUDk1',
-      username: 'karl',
-      fullName: 'Karl Hadwen',
-      emailAddress: 'karlhadwen@gmail.com',
-      following: ['2'],
-      followers: ['2', '3', '4'],
-      dateCreated: Date.now()
-    },
-    {
-      userId: '2',
-      username: 'raphael',
-      fullName: 'Raffaello Sanzio da Urbino',
-      emailAddress: 'raphael@sanzio.com',
-      following: [],
-      followers: ['ELV3o4HMW2SjClIVbtArcSRKUDk1'],
-      dateCreated: Date.now()
-    },
-    {
-      userId: '3',
-      username: 'dali',
-      fullName: 'Salvador Dalí',
-      emailAddress: 'salvador@dali.com',
-      following: [],
-      followers: ['ELV3o4HMW2SjClIVbtArcSRKUDk1'],
-      dateCreated: Date.now()
-    },
-    {
-      userId: '4',
-      username: 'orwell',
-      fullName: 'George Orwell',
-      emailAddress: 'george@orwell.com',
-      following: [],
-      followers: ['ELV3o4HMW2SjClIVbtArcSRKUDk1'],
-      dateCreated: Date.now()
+const logInWithEmailAndPassword = async (email, password) => {
+    try {
+        await signInWithEmailAndPassword(auth, email, password);
+    }catch (err) {
+        console.error(err);
     }
-  ];
-  for(let i=0;i<users.length;i++){
-  const docRef =  addDoc(collection(db, "users"),users[i]);
-  console.log("Document written with ID: ", docRef.id);
-}
-}
-// seedDatabase2();
+};
 
-export {firebase,db};
-export {seedDatabase2};
-export {authUser};
-export {addUser};
-export {auth};
+const registerWithEmailAndPassword = async (username, fullName, email, password) => {
+    let user="";
+    try {
+        //We wait for the resonse of createUser function
+        const res = await createUserWithEmailAndPassword(auth, email, password)
+        .then((x)=>{
+            user = x.user;
+            console.log(user);
+        })
+        .catch(function(error) {
+            // Handle Errors here.
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            if (errorCode == 'auth/weak-password') {
+              alert('The password is too weak.');
+            } else {
+              alert(errorMessage);
+            }
+            console.log(error);
+            return
+          });
+        
+
+        //and Create new user for the database collection
+        await addDoc(collection(db, "users"), {
+            uid: user.uid,
+            username: username.toLowerCase(),
+            fullName,
+            email: email.toLowerCase(),
+            following: [],
+            followers: [],
+            dateCreated: Date.now()
+        })
+        await updateProfile(auth.currentUser, {
+            displayName: username
+          })
+        ;
+    } catch (err) {
+        console.error(err);
+        errorSignIn = null;
+        errorSignIn = err.message;
+        // setError(err.message);
+        // alert(err.message);
+    }
+};
+
+const logout = () => {
+    console.log("user Logged out");
+    signOut(auth);
+};
+
+export {
+    auth,
+    db,
+    logInWithEmailAndPassword,
+    registerWithEmailAndPassword,
+    logout,
+    // errorSignIn
+};

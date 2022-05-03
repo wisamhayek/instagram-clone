@@ -1,12 +1,12 @@
-import { useState, useContext, useEffect } from "react";
-import { BrowserRouter, Link, Navigate, Routes, useNavigate } from "react-router-dom";
-import FirebaseContext from "../context/firebase";
-import './login-signup.css';
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { auth } from "../lib/firebase";
+import {signInWithEmailAndPassword} from "firebase/auth";
+import { useAuthState } from "react-firebase-hooks/auth";
+import "./login-signup.css";
 import * as ROUTES from '../constants/routes';
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 
-import * as React from 'react';
 import TextField from '@mui/material/TextField';
 import IconButton from '@mui/material/IconButton';
 import OutlinedInput from '@mui/material/OutlinedInput';
@@ -16,47 +16,55 @@ import FormControl from '@mui/material/FormControl';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import Button from '@mui/material/Button';
-// import { authUser } from "../lib/firebase";
 
 
-export default function Login(){
-    const history =useNavigate();
-    // navigate('/')
-    const {firebase} =useContext(FirebaseContext);
+function Login() {
 
-    const [emailAddress,setEmailAddress]=useState('');
-    const [password,setPassword]=useState('');
+    const logInWithEmailAndPassword = async (email, password) => {
+        try {
+            await signInWithEmailAndPassword(auth, email, password);
+        }catch (err) {
+            console.error(err);
+            console.error(err.message);
+            console.log("Error Catch");
+            setError(err.message);
+            setEmail("");
+            setPassword("");
+        }
+    };
     
-    const [error,setError]=useState('');
-    const isInvalid = password === '' || emailAddress === '';
 
 
-    const handleLogin=()=>{
-  
-      const auth = getAuth();
-      signInWithEmailAndPassword(auth, emailAddress, password)
-      .then((userCredential) => {
-        // Signed in 
-        console.log("login success");
-        const user = userCredential.user;
-        console.log(user);
-        history(ROUTES.DASHBOARD) //Route to mainpage /dashboard
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorMessage+errorCode);
-        setEmailAddress("");
-        setPassword("");
-        setError(error.message);
-      })
-    }
- 
-    useEffect(()=>{
-        document.title ='Login - Instagram';
-    },[])
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [user, loading, error] = useAuthState(auth);
+    const [errorHandle,setError] = useState(null)
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (loading) {
+        // maybe trigger a loading screen
+        return;
+        }
+        if (user){
+            console.log("this is Login 2 page");
+            console.log(user);
+            // navigate("/dashboard2");
+            navigate(ROUTES.DASHBOARD)
+        }
+        if (error){
+            console.log("Error useEffect - Change in Authentication");
+            setEmail("");
+            setPassword("");
+        }
+    }, [user, loading,errorHandle]);
 
 
+
+    const isInvalid = password === '' || email === '';
+
+//------->Handle show password visibility Start<-----------
     const [values, setValues] = useState({
         password: '',
         showPassword: false,
@@ -78,52 +86,91 @@ export default function Login(){
       const handleMouseDownPassword = (event) => {
         event.preventDefault();
       };
+//------->Handle show password visibility End<-----------
 
     return(
-      <div className="loginPage">
+        <div className="loginPage">
         <img src="/images/iphone-with-profile.jpg" alt="iphone with profile"/>
-      <div className="loginForm">
-      <img src="/images/logo.png" alt="logo"/>
-      {error && <p style={{color:"red"}}>{error}</p>}
-      <TextField
-          required
-          id="outlined-required"
-          className="emailInput"
-          label="Enter your email address"
-          value={emailAddress}
-          onChange={({target})=>setEmailAddress(target.value)}
+        <div className="loginForm">
+        <img src="/images/logo.png" alt="logo"/>
+        {errorHandle && <p style={{color:"red"}}>{errorHandle}</p>}
+        <TextField
+            required
+            id="outlined-required"
+            className="emailInput"
+            label="Enter your email address"
+            value={email}
+            onChange={({target})=>setEmail(target.value)}
         />
-  
+
         <FormControl sx={{ m: 1, width: 'auto' }} variant="outlined">
-          <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
-          <OutlinedInput
+            <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+            <OutlinedInput
             id="outlined-adornment-password"
             type={values.showPassword ? 'text' : 'password'}
             value={password}
             className="passwordInput"
             onChange={handleChange('password')}
             endAdornment={
-              <InputAdornment position="end">
+                <InputAdornment position="end">
                 <IconButton
-                  aria-label="toggle password visibility"
-                  onClick={handleClickShowPassword}
-                  onMouseDown={handleMouseDownPassword}
-                  edge="end"
+                    aria-label="toggle password visibility"
+                    onClick={handleClickShowPassword}
+                    onMouseDown={handleMouseDownPassword}
+                    edge="end"
                 >
-                  {values.showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                    {values.showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
                 </IconButton>
-              </InputAdornment>
+                </InputAdornment>
             }
             label="Password"
-          />
+            />
         </FormControl>
         <Button disabled={isInvalid} className="loginButton" variant="contained" onClick={() => {
-            handleLogin();
-        }}>Log in</Button>
+                    logInWithEmailAndPassword(email, password)
+                    // .then([],setError("error"))
+                    // .catch((err)=>{
+                    //     console.log(err);
+                    // })
+            }}
+        >Log in</Button>
         <p>Don't have an account? 
-          <Link to={ROUTES.SIGN_UP}> Sign up</Link>
+            <Link to="/signup"> Sign up</Link>
         </p>
         </div>
-      </div>
+        </div>
     )
+
+
+
+    //   return (
+    //     <div className="login">
+    //       <div className="login__container">
+    //         <input
+    //           type="text"
+    //           className="login__textBox"
+    //           value={email}
+    //           onChange={(e) => setEmail(e.target.value)}
+    //           placeholder="E-mail Address"
+    //         />
+    //         <input
+    //           type="password"
+    //           className="login__textBox"
+    //           value={password}
+    //           onChange={(e) => setPassword(e.target.value)}
+    //           placeholder="Password"
+    //         />
+    //         <button
+    //           className="login__btn"
+    //           onClick={() => logInWithEmailAndPassword(email, password)}
+    //         >
+    //           Login
+    //         </button>
+    //         <div>
+    //           Don't have an account? <Link to="/signup2">Register</Link> now.
+    //         </div>
+    //       </div>
+    //     </div>
+    //   );
 }
+export default Login;
