@@ -16,9 +16,13 @@ import FormControl from '@mui/material/FormControl';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import Button from '@mui/material/Button';
+import { seedPost } from "../seedPosts";
+
 
 
 function Login() {
+
+    
 
     const logInWithEmailAndPassword = async (email, password) => {
         try {
@@ -58,6 +62,7 @@ function Login() {
             setEmail("");
             setPassword("");
         }
+        // seedPost();
     }, [user, loading,errorHandle]);
 
 

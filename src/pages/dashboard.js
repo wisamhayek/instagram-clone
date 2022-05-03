@@ -6,6 +6,7 @@ import { auth, db } from "../lib/firebase";
 import { query, collection, getDocs, where } from "firebase/firestore";
 import Timeline from '../components/timeline';
 import Header from "../components/header";
+import Post from "../components/Post";
 
 function Dashboard() {
 
@@ -37,6 +38,7 @@ function Dashboard() {
   return (
     <Fragment>
       <Header />
+      <Post />
     </Fragment>
 
 

@@ -84,6 +84,8 @@ if(user){
             backgroundColor: 'primary.main', // on Hover
             // opacity: [0.9, 0.8, 0.7],
             },
+            marginBottom: "2rem",
+            height: { xs: "3rem" , md: "5rem" }
         }}>
     <AppBar sx={{backgroundColor: "inherit"}}> 
     <Toolbar sx={ {backgroundColor: "inherit"}}>
