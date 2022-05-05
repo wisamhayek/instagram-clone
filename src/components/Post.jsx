@@ -13,17 +13,17 @@ import {
   Typography,
 } from "@mui/material";
 
-import {getDoc} from "firebase/firestore";
-import { query, collection, getDocs, where,doc } from "firebase/firestore";
+
+import { query, collection, getDocs } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { db } from "../lib/firebase";
+import { useNavigate } from "react-router-dom";
 
-
-// get props and loop through (.map -> return) the Photo Database
 
 const Post = () => {
 
     const [postsData, setData] = useState(null);
+    const navigate = useNavigate();
 
     const fetchPhoto = async () => {
       try {
@@ -65,8 +65,7 @@ const Post = () => {
     <Card key={i} sx={{margin: "auto", marginBottom: "4rem", width: { xs: "95%" , md: "60%" } }}>
       <CardHeader
         avatar={
-          <Avatar alt={result.description} src={result.imgSrc}>
-            {/* img */}
+          <Avatar alt={result.description} src={result.imgSrc} style={{cursor: "pointer"}} onClick={()=>{navigate(`/p/${result.username}`)}}>
           </Avatar>
         }
         action={
@@ -74,7 +73,7 @@ const Post = () => {
             <MoreHoriz />
           </IconButton>
         }
-        title={result.username}
+        title={<p onClick={()=>{navigate(`/p/${result.username}`)}} style={{cursor: "pointer"}}>{result.username}</p>}
         subheader={result.dateCreated}
       />
       <CardMedia
@@ -100,10 +99,9 @@ const Post = () => {
       </CardActions>
       <CardContent>
         <Typography variant="body2" color="text.secondary">
-         <strong> {result.username} </strong>
+         <strong style={{cursor: "pointer"}} onClick={()=>{navigate(`/p/${result.username}`)}} > {result.username} </strong>
           {result.description}
-          {/* William Gerard is a very positive individual with years of experience in varied aspects of business development.
-          He consistently demonstrated all his qualities, and everyone strongly endorses him for any solid company that needs to have a great asset such as William.  */}
+
         </Typography>
         <Typography variant="subtitle2" display="block" color="#D3D3D3">
           View all comments

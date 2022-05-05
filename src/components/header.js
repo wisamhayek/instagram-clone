@@ -1,5 +1,6 @@
 import React , {Fragment, useState} from 'react'
 import { useAuthState } from "react-firebase-hooks/auth";
+import { useNavigate } from 'react-router-dom';
 //React Material Icons
 import HomeIcon from '@mui/icons-material/Home';
 import InboxIcon from '@mui/icons-material/Inbox';
@@ -23,12 +24,23 @@ import Menu from '@mui/material/Menu';
 //Functions and Constants
 import {logout, auth } from "../lib/firebase";
 import logo from '../constants/logo.png';
+import * as ROUTES from '../constants/routes';
+
 
 export default function Header() {
     const [user, loading, error] = useAuthState(auth);
 
     const [anchorEl, setAnchorEl] = React.useState(null);
     const isMenuOpen = Boolean(anchorEl);
+    const navigate = useNavigate();
+
+    const goToTop = () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth',
+        });
+    };
+
 
     //Function will Run when user click on profile picture => will open Menu with options
     const handleProfileMenuOpen = (event) => {
@@ -38,6 +50,11 @@ export default function Header() {
     // Close the Menu
     const handleMenuClose = () => {
         setAnchorEl(null);
+    };
+
+    const navigateProfile = () => {
+        handleMenuClose();
+        navigate(`/p/${user.displayName}`)
     };
 
     // Logout the current active User
@@ -63,8 +80,8 @@ export default function Header() {
           open={isMenuOpen}
           onClose={handleMenuClose}
         >
-            <MenuItem onClick={handleMenuClose}>{user? user.displayName:"Loading Username"}</MenuItem>
-            <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+            <MenuItem onClick={navigateProfile}>{user? user.displayName:"Loading Username"}</MenuItem>
+            <MenuItem onClick={navigateProfile}>Profile</MenuItem>
             <MenuItem onClick={()=>{
                 handleMenuClose();
                 logOutUser();}}
@@ -78,10 +95,11 @@ if(user){
     <Box
         sx={{
             width: "100%",
+            backgroundColor: '#fafafa', // Nav Bar Color
             // backgroundColor: '#fafafa', // Nav Bar Color
-            backgroundColor: 'primary.main', // Nav Bar Color
             '&:hover': {
-            backgroundColor: 'primary.main', // on Hover
+            backgroundColor: '#fafafa', // Nav Bar Color
+            // backgroundColor: 'primary.main', // on Hover
             // opacity: [0.9, 0.8, 0.7],
             },
             marginBottom: "2rem",
@@ -97,7 +115,7 @@ if(user){
         columnSpacing={{ xs: 1,  md: 2 }}
     >
     <Grid item xs={4} md={3}>
-        <img src={logo} alt='logo' style={{width:"100%", margin:"6px 0 0 0"}}/>
+        <img src={logo} alt='logo' style={{width:"100%", margin:"6px 0 0 0", cursor: "pointer"}} onClick={() => { navigate(ROUTES.DASHBOARD); goToTop() }}/>
     </Grid>
 
 
@@ -124,32 +142,33 @@ if(user){
     {user && 
     <Fragment>
     <Grid item xs={1} md={1}>
-    <IconButton size="large" aria-label="home" color="inherit">
-        <HomeIcon />
+    <IconButton size="large" aria-label="home" onClick={() => { navigate(ROUTES.DASHBOARD); goToTop() }}>
+        <HomeIcon sx={{ color: "black"}}/>
+        {/* <HomeIcon color="primary"/> */}
     </IconButton>
     </Grid>
 
     <Grid item xs={1} md={1}>
-    <IconButton size="large" aria-label="messenger" color="inherit">
-        <InboxIcon />
+    <IconButton size="large" aria-label="messenger">
+        <InboxIcon sx={{ color: "black"}}/>
     </IconButton>
     </Grid>
 
     <Grid item xs={1} md={1}>
-    <IconButton size="large" aria-label="createPost" color="inherit">
-        <AddBoxIcon />
+    <IconButton size="large" aria-label="createPost">
+        <AddBoxIcon sx={{ color: "black"}}/>
     </IconButton>
     </Grid>
 
     <Grid item xs={1} md={1}>
-    <IconButton size="large" aria-label="explore" color="inherit">
-        <ExploreIcon />
+    <IconButton size="large" aria-label="explore">
+        <ExploreIcon sx={{ color: "black"}}/>
     </IconButton>
     </Grid>
 
     <Grid item xs={1} md={1}>
-    <IconButton size="large" aria-label="notfications" color="inherit">
-        <FavoriteBorderIcon />
+    <IconButton size="large" aria-label="notfications">
+        <FavoriteBorderIcon sx={{ color: "black"}}/>
     </IconButton>
     </Grid>
 
@@ -161,7 +180,7 @@ if(user){
         aria-label="account of current user"
         aria-haspopup="true"
         onClick={handleProfileMenuOpen}
-        color="inherit"
+        color="primary"
         >
     <AccountCircle />
     </IconButton>

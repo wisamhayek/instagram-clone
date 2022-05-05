@@ -4,9 +4,9 @@ import { useNavigate } from "react-router-dom";
 import "./dashboard.css";
 import { auth, db } from "../lib/firebase";
 import { query, collection, getDocs, where } from "firebase/firestore";
-import Timeline from '../components/timeline';
 import Header from "../components/header";
 import Post from "../components/Post";
+import * as ROUTES from '../constants/routes';
 
 function Dashboard() {
 
@@ -20,7 +20,7 @@ function Dashboard() {
       const doc = await getDocs(q);
     //   console.log(doc);
       const data = doc.docs[0].data();
-    //   console.log(data);
+      console.log(data);
       setName(data.fullName);
     } catch (err) {
       console.error(err);
@@ -29,10 +29,15 @@ function Dashboard() {
   };
 
   useEffect(() => {
+    document.title =`Instagram`;
     if (loading) return;
-    if (!user) return navigate("/login");
+    if (!user) return navigate(ROUTES.LOGIN);
     fetchUserName();
   }, [user, loading]);
+
+  useEffect(()=>{
+    document.title =`${name} - Instagram`;
+},[name])
 
 
   return (
@@ -51,7 +56,6 @@ function Dashboard() {
     //      {/* <div>{user?.email}</div> */}
          
     //      {/* <Header /> */}
-    //     <Timeline />
     //      <button className="dashboard__btn" onClick={logout}>
     //       Logout
     //      </button>

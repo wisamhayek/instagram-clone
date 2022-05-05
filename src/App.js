@@ -9,6 +9,7 @@ const NotFound =lazy(()=> import ('./pages/not-found'));
 const Login =lazy(()=> import ('./pages/login'));
 const Dashboard =lazy(()=> import ('./pages/dashboard'));
 const SignUp =lazy(()=> import ('./pages/sign-up'));
+const Profile =lazy(()=> import ('./pages/profile'));
 
 function App() {
   const {user} = UserAuthListener;
@@ -22,6 +23,7 @@ function App() {
           <Route path={ROUTES.NOT_FOUND} element={<NotFound/>}/>
           <Route exact path={ROUTES.LOGIN} element={<Login/>}/>
           <Route exact path={ROUTES.SIGN_UP} element={<SignUp/>}/>
+          <Route exact path={ROUTES.PROFILE} element={<Profile/>}/>
         </Routes>
       </Suspense>
     </BrowserRouter>
