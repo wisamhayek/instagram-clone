@@ -18,6 +18,8 @@ import Header from '../components/header';
 export default function Profile() {
 
     let { username } = useParams();
+    console.log("test profile");
+    console.log(username);
 
     // const [user, loading, error] = useAuthState(auth);
     const [profileData, setData] = useState(null);
