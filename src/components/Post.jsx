@@ -57,7 +57,7 @@ const Post = () => {
     <Card key={i} sx={{margin: "auto", marginBottom: "4rem", width: { xs: "95%" , md: "60%" } }}>
       <CardHeader
         avatar={
-          <Avatar alt={result.description} src={result.imgSrc} style={{cursor: "pointer"}} onClick={()=>{navigate(`/p/${result.username}`)}}>
+          <Avatar alt={result.description} src={result.imgSrc} style={{cursor: "pointer"}} onClick={()=>{navigate(`/instagram-clone/p/${result.username}`)}}>
           </Avatar>
         }
         action={
@@ -65,7 +65,7 @@ const Post = () => {
             <MoreHoriz />
           </IconButton>
         }
-        title={<p onClick={()=>{navigate(`/p/${result.username}`)}} style={{cursor: "pointer"}}>{result.username}</p>}
+        title={<p onClick={()=>{navigate(`/instagram-clone/p/${result.username}`)}} style={{cursor: "pointer"}}>{result.username}</p>}
         subheader={result.dateCreated}
       />
       <CardMedia
@@ -91,7 +91,7 @@ const Post = () => {
       </CardActions>
       <CardContent>
         <Typography variant="body2" color="text.secondary">
-         <strong style={{cursor: "pointer"}} onClick={()=>{navigate(`/p/${result.username}`)}} > {result.username} </strong>
+         <strong style={{cursor: "pointer"}} onClick={()=>{navigate(`/instagram-clone/p/${result.username}`)}} > {result.username} </strong>
           {result.description}
 
         </Typography>
