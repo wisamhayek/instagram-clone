@@ -1,0 +1,2 @@
+body{background-color:#fafafa}.loginPage{display:grid;grid-template-columns:1fr 1fr;margin:auto;text-align:center}.loginPage img{margin:auto;width:80%}.loginForm{display:grid;margin:auto}.loginForm .emailInput{margin:8px;width:16rem}.loginForm .passwordInput{width:16rem}.loginForm .loginButton{height:3rem;margin:8px;width:10rem}.loginForm p{margin:8px;text-align:left}.loginForm a:link,a:visited{color:#4169e1;text-decoration:none}@media only screen and (max-width:600px){.loginPage{grid-template-columns:auto}}
+/*# sourceMappingURL=458.d32c1a9a.chunk.css.map*/
