@@ -62,6 +62,7 @@ export default function Header() {
     // Logout the current active User
     const logOutUser = () => {
         logout()
+        navigate(ROUTES.LOGIN)
     };
       
     // Copy from React website
