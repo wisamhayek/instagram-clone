@@ -19,6 +19,9 @@ import Button from '@mui/material/Button';
 import {createUserWithEmailAndPassword,updateProfile} from "firebase/auth";
 import {collection,addDoc} from "firebase/firestore";
 
+// ******** # Created By: 
+// ********----->>>   UI - Tomas, Fuctionality - Wisam <<<-----********
+
 function Register() {
 
     const [username,setUsername]=useState("");
@@ -51,7 +54,6 @@ function Register() {
                 updateProfile(auth.currentUser, {
                     displayName: username
                 })
-                // return x
             })
             .catch(function(error) {
                 var errorCode = error.code;
@@ -73,7 +75,6 @@ function Register() {
     useEffect(() => {
         if (loading) return;
         if (user){
-            // setTimeout(navigate("/dashboard2"),2000);
             setTimeout(navigate(ROUTES.DASHBOARD),2000);
         } 
         if (error){
@@ -173,47 +174,10 @@ function Register() {
         }
         >Sign Up</Button>
         <p>Already have an account? 
-            {/* <Link to={ROUTES.LOGIN}> Sign In</Link> */}
-            <Link to="/login"> Sign In</Link>
+            <Link to={ROUTES.LOGIN}> Sign In</Link>
         </p>
         </div>
         </div>
     )
-
-//   return (
-//     <div className="register">
-//       <div className="register__container">
-//         <input
-//           type="text"
-//           className="register__textBox"
-//           value={fullName}
-//           onChange={(e) => setName(e.target.value)}
-//           placeholder="Full Name"
-//         />
-//         <input
-//           type="text"
-//           className="register__textBox"
-//           value={email}
-//           onChange={(e) => setEmail(e.target.value)}
-//           placeholder="E-mail Address"
-//         />
-//         <input
-//           type="password"
-//           className="register__textBox"
-//           value={password}
-//           onChange={(e) => setPassword(e.target.value)}
-//           placeholder="Password"
-//         />
-//         <button className="register__btn" onClick={register}>
-//           Register
-//         </button>
-//         <div>
-//           Already have an account? <Link to="/login">Login</Link> now.
-//         </div>
-//       </div>
-//     </div>
-//   );
-
-
 }
 export default Register;

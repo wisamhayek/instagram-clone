@@ -8,6 +8,12 @@ import { useParams } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Avatar from '@mui/material/Avatar';
 import { Grid, Tab, Tabs, Typography } from '@mui/material';
+import Header from '../components/header';
+
+
+
+// ******** # Created By: 
+// ********----->>>   UI - Tomas, Fuctionality - Wisam <<<-----********
 
 export default function Profile() {
 
@@ -46,7 +52,6 @@ export default function Profile() {
         let hash = 0;
         let i;
       
-        /* eslint-disable no-bitwise */
         for (i = 0; i < string.length; i += 1) {
           hash = string.charCodeAt(i) + ((hash << 5) - hash);
         }
@@ -57,8 +62,6 @@ export default function Profile() {
           const value = (hash >> (i * 8)) & 0xff;
           color += `00${value.toString(16)}`.slice(-2);
         }
-        /* eslint-enable no-bitwise */
-      
         return color;
       }
 
@@ -83,11 +86,11 @@ const handleChange = (event, newValue) => {
 if (profileData){
   return (
     <Fragment>
+        <Header />
         <Box
         sx={{
         width: "80%",
         height: "100%",
-        // backgroundColor: '#fafafa',
         margin: "auto"
         }}
         >
@@ -96,7 +99,6 @@ if (profileData){
         direction="row"
         justifyContent="space-evenly"
         alignItems="center"
-        // columnSpacing={{ xs: 1,  md: 2 }}
         >
         <Grid item>
         <Avatar {...stringAvatar(`${profileData.fullName}`)} sx={{ width: 200, height: 200, margin: "auto" }} />
@@ -105,7 +107,6 @@ if (profileData){
             <Typography variant="h4" sx={{ marginBottom: "1rem", textAlign: "left"}}>
                 {profileData.username}
             </Typography>
-
 
             <Grid 
             container
@@ -129,8 +130,7 @@ if (profileData){
 
         </Grid>
 
-
-        {/* ------->>Posts saved Tagged Starts<<-------*/}
+        {/* ------->> Posts - saved - Tagged Section Starts <<-------*/}
         <Box sx={{ width: '60%', borderTop: "1px solid grey", margin: "auto", marginTop: "2rem"}}>
         <Tabs value={value} onChange={handleChange} centered>
             <Tab label="POSTS" />
@@ -138,15 +138,16 @@ if (profileData){
             <Tab label="TAGGED" />
         </Tabs>
         </Box>
-        {/* ------->>Posts saved Tagged Ends<<-------*/}
+        {/* ------->> Posts - saved - Tagged Section Ends <<-------*/}
 
         </Box>
     </Fragment>
-
-
-
-
   )
 }
-return <h1 style={{color: "red", textAlign: "center", margin:"auto"}}>User Not Found</h1>
+return (
+    <Fragment>
+    <Header />
+    <h1 style={{color: "red", textAlign: "center", margin:"auto"}}>User Not Found</h1>
+    </Fragment>
+)
 }

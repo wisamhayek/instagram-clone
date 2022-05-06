@@ -2,6 +2,17 @@ import { initializeApp } from "firebase/app";
 import {getAuth,signInWithEmailAndPassword,createUserWithEmailAndPassword,signOut,updateProfile} from "firebase/auth";
 import {getFirestore,collection,addDoc} from "firebase/firestore";
 
+
+
+// ******** # Created By: 
+// ********----->>>  Wisam <<<-----********
+
+
+
+// Firebase Config File
+// With most of the functions for firebase functionality
+  
+
 const firebaseConfig = {
     apiKey: "AIzaSyDfmMq7erEynTlMTYdXTD_5cLJnvv7uoyU",
     authDomain: "instagram-clone-cc376.firebaseapp.com",

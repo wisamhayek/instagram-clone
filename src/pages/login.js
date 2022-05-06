@@ -18,11 +18,11 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import Button from '@mui/material/Button';
 import { seedPost } from "../seedPosts";
 
+// ******** # Created By: 
+// ********----->>>   UI - Tomas, Fuctionality - Wisam <<<-----********
 
 
 function Login() {
-
-    
 
     const logInWithEmailAndPassword = async (email, password) => {
         try {
@@ -52,9 +52,8 @@ function Login() {
         return;
         }
         if (user){
-            console.log("this is Login 2 page");
+            // console.log("this is Login page");
             console.log(user);
-            // navigate("/dashboard2");
             navigate(ROUTES.DASHBOARD)
         }
         if (error){
@@ -133,49 +132,13 @@ function Login() {
         </FormControl>
         <Button disabled={isInvalid} className="loginButton" variant="contained" onClick={() => {
                     logInWithEmailAndPassword(email, password)
-                    // .then([],setError("error"))
-                    // .catch((err)=>{
-                    //     console.log(err);
-                    // })
             }}
         >Log in</Button>
         <p>Don't have an account? 
-            <Link to="/signup"> Sign up</Link>
+            <Link to={ROUTES.SIGN_UP}> Sign up</Link>
         </p>
         </div>
         </div>
     )
-
-
-
-    //   return (
-    //     <div className="login">
-    //       <div className="login__container">
-    //         <input
-    //           type="text"
-    //           className="login__textBox"
-    //           value={email}
-    //           onChange={(e) => setEmail(e.target.value)}
-    //           placeholder="E-mail Address"
-    //         />
-    //         <input
-    //           type="password"
-    //           className="login__textBox"
-    //           value={password}
-    //           onChange={(e) => setPassword(e.target.value)}
-    //           placeholder="Password"
-    //         />
-    //         <button
-    //           className="login__btn"
-    //           onClick={() => logInWithEmailAndPassword(email, password)}
-    //         >
-    //           Login
-    //         </button>
-    //         <div>
-    //           Don't have an account? <Link to="/signup2">Register</Link> now.
-    //         </div>
-    //       </div>
-    //     </div>
-    //   );
 }
 export default Login;

@@ -20,6 +20,9 @@ import { db } from "../lib/firebase";
 import { useNavigate } from "react-router-dom";
 
 
+// ******** # Created By: 
+// ********----->>>   UI - Tomas, Fuctionality - Wisam <<<-----********
+
 const Post = () => {
 
     const [postsData, setData] = useState(null);
@@ -27,7 +30,6 @@ const Post = () => {
 
     const fetchPhoto = async () => {
       try {
-        // const q = query(collection(db, "Posts"), where("uid", "==", user?.uid));
         const q = query(collection(db, "Posts"));
         const doc = await getDocs(q);
         // console.log(doc);
@@ -36,22 +38,12 @@ const Post = () => {
         setData(data)
       } catch (err) {
         console.error(err);
-        // alert("An error occured while fetching user data");
       }
     };
 
     useEffect(() => {
       fetchPhoto()
     }, []);
-
-    // useEffect(() => {
-    //   if(postsData){
-    //     console.log("test test");
-    //     console.log(postsData[0].data());
-    //     console.log(postsData[1].data());
-    //   }
-    //   else console.log("not yet");
-    // }, [postsData]);
 
 
   if(postsData){

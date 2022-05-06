@@ -8,6 +8,9 @@ import Header from "../components/header";
 import Post from "../components/Post";
 import * as ROUTES from '../constants/routes';
 
+// ******** # Created By: 
+// ********----->>>  Wisam  <<<-----********
+
 function Dashboard() {
 
     const [user, loading, error] = useAuthState(auth);
@@ -20,7 +23,7 @@ function Dashboard() {
       const doc = await getDocs(q);
     //   console.log(doc);
       const data = doc.docs[0].data();
-      console.log(data);
+      // console.log(data);
       setName(data.fullName);
     } catch (err) {
       console.error(err);
@@ -30,6 +33,7 @@ function Dashboard() {
 
   useEffect(() => {
     document.title =`Instagram`;
+    document.body.style.backgroundColor = "rgb(250, 250, 250)" // Instagram official background color
     if (loading) return;
     if (!user) return navigate(ROUTES.LOGIN);
     fetchUserName();
@@ -40,27 +44,14 @@ function Dashboard() {
 },[name])
 
 
+
+
   return (
     <Fragment>
       <Header />
       <Post />
     </Fragment>
 
-
-    // <div className="dashboard">
-    //    <div className="dashboard__container">
-    //     Logged in as
-    //      {name && <div style={{color:"royalblue"}}>{name}</div>}
-    //      {user && <div style={{color:"royalblue"}}>{user.email}</div>}
-    //      {/* <div>{name}</div> */}
-    //      {/* <div>{user?.email}</div> */}
-         
-    //      {/* <Header /> */}
-    //      <button className="dashboard__btn" onClick={logout}>
-    //       Logout
-    //      </button>
-    //    </div>
-    //  </div>
   );
 }
 export default Dashboard;
