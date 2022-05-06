@@ -56,7 +56,7 @@ export default function Header() {
 
     const navigateProfile = () => {
         handleMenuClose();
-        navigate(`/p/${user.displayName}`)
+        navigate(`/instagram-clone/p/${user.displayName}`)
     };
 
     // Logout the current active User
