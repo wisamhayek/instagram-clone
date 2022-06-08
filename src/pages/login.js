@@ -5,6 +5,8 @@ import {signInWithEmailAndPassword} from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
 import "./login-signup.css";
 import * as ROUTES from '../constants/routes';
+import companyLogo from '../constants/logo.png';
+import companyDesign from '../constants/iphone-with-profile.jpg';
 
 
 import TextField from '@mui/material/TextField';
@@ -94,9 +96,9 @@ function Login() {
 
     return(
         <div className="loginPage">
-        <img src="/images/iphone-with-profile.jpg" alt="iphone with profile"/>
+        <img src={companyDesign} alt="iphone with profile"/>
         <div className="loginForm">
-        <img src="/images/logo.png" alt="logo"/>
+        <img src={companyLogo} alt="logo"/>
         {errorHandle && <p style={{color:"red"}}>{errorHandle}</p>}
         <TextField
             required
