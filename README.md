@@ -1,3 +1,10 @@
+# Weekly assignment - React project
+instagram design clone - using React Material UI.<br>
+-Signup & login functionality using Firebase Authentication.<br>
+-only the Profile page is implemented from the NavBar.<br>
+-Dashboard fetches all the "static" posts in the database, following/followers functionality not #implemented.<br>
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
